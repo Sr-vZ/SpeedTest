@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Speed Test</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- <h1>Speed Test Demo</h1>
+  <div>
+    <h2>Test</h2>
+    <button>Start Test</button>
+  </div> -->
+
+
+
+  <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+  <!-- have a button POST a click via AJAX -->
+  <!-- <button hx-post="/clicked" hx-swap="outerHTML">
+    Click Me
+  </button> -->
+  <!-- <button hx-get="/download/" hx-trigger="click" hx-target="this" hx-vals="{}">Download File</button>
+
+  <form hx-encoding='multipart/form-data' hx-post='/upload'
+    _='on htmx:xhr:progress(loaded, total) set #progress.value to (loaded/total)*100'>
+    <input type='file' name='file'>
+    <button>
+      Upload
+    </button>
+    <progress id='progress' value='0' max='100'></progress>
+  </form> -->
+  <h1>Speed Test</h1>
+
+  <button onclick="testSpeed()">Test Speed</button>
+  <p>Download Speed: <span id="download-speed"></span> Mbps</p>
+  <p>Upload Speed: <span id="upload-speed"></span> Mbps</p>
+
+  <script>
+    async function generateFile(sizeInBytes) {
+      const buffer = new Uint8Array(sizeInBytes);
+      for (let i = 0; i < sizeInBytes; i++) {
+        buffer[i] = Math.floor(Math.random() * 256);
+      }
+      return new Blob([buffer]);
+    }
+
+    async function testSpeed() {
+      const downloadUrl = "/download";
+      const uploadFile = await generateFile(25 * 1024 * 1024); // 25 MB
+
+      // Measure download speed
+      const downloadStart = performance.now();
+      // await fetch(`/download-speed?url=${downloadUrl}`);
+      await fetch(downloadUrl, {
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      });
+      const downloadEnd = performance.now();
+      const downloadSpeed = 25 / ((downloadEnd - downloadStart) / 1000); // Convert to Mbps
+
+      // Measure upload speed
+      const formData = new FormData();
+      formData.append("file", uploadFile);
+
+      const uploadStart = performance.now();
+      await fetch("/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const uploadEnd = performance.now();
+      const uploadSpeed = 25 / ((uploadEnd - uploadStart) / 1000); // Convert to Mbps
+
+      document.getElementById("download-speed").textContent = downloadSpeed.toFixed(2);
+      document.getElementById("upload-speed").textContent = uploadSpeed.toFixed(2);
+    }
+  </script>
+</body>
+
+</html>
