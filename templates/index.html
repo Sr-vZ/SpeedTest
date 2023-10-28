@@ -40,70 +40,56 @@
       <div class="max-w-md">
         <h1 class="text-5xl font-bold">Speed Test</h1>
         <p class="py-6">A simple speedtesting app in Python similar to Google Speedtest or fast.com</p>
-        <div class="card w-100 bg-base-200 text-neutral-content">
+        <div class="card w-100 bg-base-200 text-neutral-content" id="test_stats_card">
           <div class="card-body items-center text-center">
-            <h2 class="card-title">Cookies!</h2>
-            <p>We are using cookies for no reason.</p>
+            <h2 class="card-title">Test Stats</h2>
+            <div class="stats shadow">
+
+              <div class="stat">
+                <div class="stat-figure text-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    class="inline-block w-8 h-8 stroke-current">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                    </path>
+                  </svg>
+                </div>
+                <div class="stat-title">Download Speed</div>
+                <div class="stat-value text-primary">
+                  <p> <span id="download-speed">0</span></p>
+                </div>
+                <div class="stat-desc">Mbps</div>
+              </div>
+
+              <div class="stat">
+                <div class="stat-figure text-secondary">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    class="inline-block w-8 h-8 stroke-current">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                </div>
+                <div class="stat-title">Upload Speed</div>
+                <div class="stat-value text-secondary">
+                  <p><span id="upload-speed">0</span></p>
+                </div>
+                <div class="stat-desc">Mbps</div>
+              </div>
+
+            </div>
+
+
+            <!-- <p>Download Speed: <span id="download-speed"></span> Mbps</p>
+            <p>Upload Speed: <span id="upload-speed"></span> Mbps</p> -->
             <div class="card-actions justify-end">
             </div>
           </div>
         </div>
-        <button class="btn btn-primary">Start</button>
+        <button class="btn btn-primary" id="start_test">Start</button>
       </div>
     </div>
   </div>
-  <h1>Speed Test</h1>
-
-  <button id="start_test" onclick="testSpeed()">Test Speed</button>
-  <p>Download Speed: <span id="download-speed"></span> Mbps</p>
-  <p>Upload Speed: <span id="upload-speed"></span> Mbps</p>
-
-  <script>
-    const start_test = document.getElementById("start_test")
-    start_test.addEventListener("click", function () {
-      start_test.disabled = true
-      testSpeed()
-    })
-    async function generateFile(sizeInBytes) {
-      const buffer = new Uint8Array(sizeInBytes);
-      for (let i = 0; i < sizeInBytes; i++) {
-        buffer[i] = Math.floor(Math.random() * 256);
-      }
-      return new Blob([buffer]);
-    }
-
-    async function testSpeed() {
-      const downloadUrl = "/download";
-      const uploadFile = await generateFile(25 * 1024 * 1024); // 25 MB
-
-      // Measure download speed
-      const downloadStart = performance.now();
-      // await fetch(`/download-speed?url=${downloadUrl}`);
-      await fetch(downloadUrl, {
-        headers: {
-          'Cache-Control': 'no-cache'
-        }
-      });
-      const downloadEnd = performance.now();
-      const downloadSpeed = 25 / ((downloadEnd - downloadStart) / 1000); // Convert to Mbps
-
-      // Measure upload speed
-      const formData = new FormData();
-      formData.append("file", uploadFile);
-
-      const uploadStart = performance.now();
-      await fetch("/upload", {
-        method: "POST",
-        body: formData,
-      });
-      const uploadEnd = performance.now();
-      const uploadSpeed = 25 / ((uploadEnd - uploadStart) / 1000); // Convert to Mbps
-
-      document.getElementById("download-speed").textContent = downloadSpeed.toFixed(2);
-      document.getElementById("upload-speed").textContent = uploadSpeed.toFixed(2);
-      start_test.disabled = false
-    }
-  </script>
+  <script src="/static/js/app.js"></script>
 </body>
 
 </html>
