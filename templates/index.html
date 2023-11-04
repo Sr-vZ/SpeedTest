@@ -12,29 +12,6 @@
 </head>
 
 <body>
-  <!-- <h1>Speed Test Demo</h1>
-  <div>
-    <h2>Test</h2>
-    <button>Start Test</button>
-  </div> -->
-
-
-
-  <!-- <script src="https://unpkg.com/htmx.org@1.9.6"></script> -->
-  <!-- have a button POST a click via AJAX -->
-  <!-- <button hx-post="/clicked" hx-swap="outerHTML">
-    Click Me
-  </button> -->
-  <!-- <button hx-get="/download/" hx-trigger="click" hx-target="this" hx-vals="{}">Download File</button>
-
-  <form hx-encoding='multipart/form-data' hx-post='/upload'
-    _='on htmx:xhr:progress(loaded, total) set #progress.value to (loaded/total)*100'>
-    <input type='file' name='file'>
-    <button>
-      Upload
-    </button>
-    <progress id='progress' value='0' max='100'></progress>
-  </form> -->
   <div class="hero min-h-screen bg-base-200">
     <div class="hero-content text-center">
       <div class="max-w-md">
@@ -77,15 +54,12 @@
               </div>
 
             </div>
-
-
-            <!-- <p>Download Speed: <span id="download-speed"></span> Mbps</p>
-            <p>Upload Speed: <span id="upload-speed"></span> Mbps</p> -->
             <div class="card-actions justify-end">
             </div>
           </div>
         </div>
-        <button class="btn btn-primary" id="start_test">Start</button>
+        <button class="btn btn-primary" id="start_test">
+          <span class="loading loading-spinner loading-md hidden" id="test_spinner"></span>Start</button>
       </div>
     </div>
   </div>
