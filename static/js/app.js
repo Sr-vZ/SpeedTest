@@ -22,11 +22,28 @@ async function logChunks(url, { signal }) {
     }
 }
 
+function saveStats(data) {
+    let stats = window.localStorage.getItem("stats")
+    if (stats) {
+        console.log(data)
+        stats = JSON.parse(stats)
+        console.log(stats)
+    } else {
+        localStorage.setItem("stats", JSON.stringify(data))
+    }
+}
+
 async function testSpeed() {
     test_stats_card.style.display = "block"
     document.getElementById("test_spinner").classList.remove("hidden")
     const downloadUrl = "/download";
     const uploadFile = await generateFile(5 * 1024 * 1024); // 25 MB
+
+    const latencyStart = performance.now();
+    res = await fetch("/")
+    const latencyEnd = performance.now();
+    const latency = (latencyEnd - latencyStart) / 1000;
+
 
     // Measure download speed
     const downloadStart = performance.now();
@@ -36,10 +53,9 @@ async function testSpeed() {
             'Cache-Control': 'no-cache'
         }
     });
-    const aborter = new AbortController();
-    logChunks("/download", { signal: aborter.signal });
+
     const downloadEnd = performance.now();
-    downloadedSize = parseInt(res.headers.get('Content-Length')) / 1024 / 1024
+    const downloadedSize = parseInt(res.headers.get('Content-Length')) / 1024 / 1024
     const downloadSpeed = downloadedSize / ((downloadEnd - downloadStart) / 1000); // Convert to Mbps
     document.getElementById("download-speed").textContent = downloadSpeed.toFixed(2);
 
@@ -61,5 +77,18 @@ async function testSpeed() {
 
     document.getElementById("upload-speed").textContent = uploadSpeed.toFixed(2);
     document.getElementById("test_spinner").classList.add("hidden")
+    start_test.innerHTML = start_test.innerHTML.replace("Start", "Test again!")
     start_test.disabled = false
+
+    let dt = new Date()
+
+    data = {
+        id: Math.floor(dt.getTime() / 1000),
+        down: downloadSpeed,
+        up: uploadSpeed,
+        ms: latency
+    }
+
+    saveStats(data)
+
 }
