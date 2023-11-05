@@ -23,13 +23,17 @@ async function logChunks(url, { signal }) {
 }
 
 function saveStats(data) {
-    let stats = window.localStorage.getItem("stats")
+    let stats = localStorage.getItem("stats")
     if (stats) {
-        console.log(data)
-        stats = JSON.parse(stats)
-        console.log(stats)
+        // console.log(data)
+        let newStats = JSON.parse(stats)
+        // console.log(stats)
+        // let newStats = [stats, data]
+        newStats.push(data)
+        console.log(newStats)
+        localStorage.setItem("stats", JSON.stringify(newStats))
     } else {
-        localStorage.setItem("stats", JSON.stringify(data))
+        localStorage.setItem("stats", JSON.stringify([data]))
     }
 }
 
