@@ -9,6 +9,11 @@ A simple internet SpeedTest app similar to Okla or Google Speedtest
 
 This is a Speed Testing App created using Python FastAPI for the backend and JavaScript with Tailwind CSS for the front end. This application allows users to test their internet connection's speed, including download and upload speeds, and view the results in a user-friendly interface. You can run this app both locally and deploy it on a server.
 
+## Demo
+<p align="center" width="100%">
+    <img width="100%" src="/static/img/Speedtest_demo.gif">
+</p>
+
 ## Features
 
 - Test internet connection speed.
@@ -56,4 +61,20 @@ Once the test is complete, you can view the results on the screen.
 # Technologies Used
 - Backend: Python FastAPI
 - Frontend: JavaScript, Tailwind CSS
+
+# Contributing
+If you want to contribute to this project, please follow these steps:
+
+- Fork the repository on GitHub.
+- Clone your forked repository to your local machine.
+- Create a new branch for your feature or bug fix.
+- Make your changes and commit them with descriptive messages.
+- Push your changes to your forked repository.
+- Create a pull request to the original repository.
+Please make sure your code adheres to the project's coding standards and follows best practices.
+
+# License
+This Speed Testing App is licensed under the MIT License. See the LICENSE file for details.
+
+We hope you find this Speed Testing App useful! Happy testing!
 
