@@ -5,5 +5,10 @@ COPY templates app/templates
 COPY main.py app/
 COPY requirements.txt app/
 
-RUN python3 -m pip install
-RUN mkdir app/uploads
+WORKDIR app/
+
+RUN python3 -m pip install -r requirements.txt
+RUN mkdir uploads
+
+CMD ["uvicorn", "main:app", "--reload"]
+
